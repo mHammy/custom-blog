@@ -1,0 +1,12 @@
+{
+  "name": "custom-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "author": "mHammy",
+  "license": "ISC"
+}
