@@ -32,11 +32,11 @@ const commentRoutes = require('./routes/commentRoutes');
 const signupRoutes = require('./routes/signupRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 
-app.use('/', signupRoutes);
-app.use('/', userRoutes);
-app.use('/', postRoutes);
-app.use('/', commentRoutes);
-app.use('/', loginRoutes);
+app.use('/signup', signupRoutes);
+app.use('/users', userRoutes);
+app.use('/posts', postRoutes);
+app.use('/comments', commentRoutes);
+app.use('/login', loginRoutes);
 
 const exphbs = require('express-handlebars');
 const moment = require('moment'); 
