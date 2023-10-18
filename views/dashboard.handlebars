@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Tech Blog</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Log In</a>
+                </li>
+                <!-- Add conditional logic to show "Log Out" when the user is authenticated -->
+                <!-- Example: <% if (authenticated) { %><li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li><% } %> -->
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Existing Blog Posts -->
+            <div class="col-md-8">
+                <h1>Your Dashboard</h1>
+
+                <!-- List of Existing Blog Posts -->
+                <ul class="list-group">
+                    {{#each blogPosts}}
+                    <li class="list-group-item">
+                        <h2>{{ this.title }}</h2>
+                        <p>{{ this.contents }}</p>
+                        <div>
+                            <a href="/posts/{{ this._id }}" class="btn btn-primary">Read More</a>
+                            <a href="/dashboard/edit/{{ this._id }}" class="btn btn-warning">Edit</a>
+                            <a href="/dashboard/delete/{{ this._id }}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+
+                <!-- Add more existing blog posts here -->
+
+            </div>
+
+            <!-- Sidebar (Create New Post) -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Create New Blog Post</h3>
+                        <form action="/dashboard/create" method="post">
+                            <div class="form-group">
+                                <label for="title">Title:</label>
+                                <input type="text" id="title" name="title" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contents">Contents:</label>
+                                <textarea id="contents" name="contents" class="form-control" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">Create Post</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery (optional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

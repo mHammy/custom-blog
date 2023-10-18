@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   session({
-    secret: process.env.SESSION_SECRET, // Use the SESSION_SECRET from .env
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -29,12 +29,38 @@ require('./config/passport')(passport);
 const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentRoutes');
+const signupRoutes = require('./routes/signupRoutes');
+const loginRoutes = require('./routes/loginRoutes');
 
-app.use('/api/users', userRoutes);
-app.use('/api/posts', postRoutes);
-app.use('/api/comments', commentRoutes);
+app.use('/', signupRoutes);
+app.use('/', userRoutes);
+app.use('/', postRoutes);
+app.use('/', commentRoutes);
+app.use('/', loginRoutes);
 
-// Use the 'db' connection in your server.js
+const exphbs = require('express-handlebars');
+const moment = require('moment'); 
+const { login } = require('./controllers/userController');
+
+// Create an instance of Handlebars with helpers
+const hbs = exphbs.create({
+  helpers: {
+    formatDate: function (date) {
+      return moment(date).format('MMMM D, YYYY');
+    },
+  },
+});
+
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+
+// Define a route handler for the root URL ("/") that renders "home.handlebars"
+app.get('/', (req, res) => {
+  res.render('home'); // Assumes you have a "home.handlebars" template
+});
+
+
+// Connect to the database
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
   console.log('Connected to the database');
