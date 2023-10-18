@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ blogPost.title }}</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Tech Blog</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Log In</a>
+                </li>
+                <!-- Add conditional logic to show "Log Out" when the user is authenticated -->
+                <!-- Example: <% if (authenticated) { %><li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li><% } %> -->
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Blog Post Content -->
+            <div class="col-md-8">
+                <h1>{{ blogPost.title }}</h1>
+                <p>{{ blogPost.contents }}</p>
+
+                <!-- Display Comments -->
+                <h2>Comments</h2>
+                <ul class="list-group">
+                    {{#each comments}}
+                    <li class="list-group-item">{{ this.text }} - {{ formatDate this.dateCreated }}</li>
+                    {{/each}}
+                </ul>
+
+                <!-- Comment Submission Form (if authenticated) -->
+                {{#if isAuthenticated}}
+                <h3>Add a Comment</h3>
+                <form action="/comments/{{ blogPost._id }}" method="post">
+                    <div class="form-group">
+                        <textarea name="text" rows="4" class="form-control" placeholder="Enter your comment" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                {{/if}}
+            </div>
+
+            <!-- Sidebar (Login and Signup) -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Log In</h3>
+                        <form action="/login" method="post">
+                            <div class="form-group">
+                                <label for="username">Username:</label>
+                                <input type="text" id="username" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Log In</button>
+                        </form>
+                        <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery (optional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
